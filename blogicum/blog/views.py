@@ -1,9 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.http import Http404
-from django.views.generic import (
-    CreateView, DeleteView,  UpdateView
-)
+from django.views.generic import (CreateView, DeleteView,  UpdateView)
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -41,7 +39,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         if self.request.user.is_authenticated:
             profile, created = Profile.objects.get_or_create(
                 user=self.request.user
-                )
+            )
             return profile
         else:
             raise Http404("Пользователь не найден")
@@ -87,8 +85,9 @@ def index(request):
 def post_detail(request, pk):
     template = 'blog/detail.html'
     post = get_object_or_404(
-        Post.objects.select_related('category', 'location', 'author'),
-        pk=pk
+        Post.objects.select_related(
+                                   'category', 'location', 'author'
+                                   ), pk=pk
     )
     if post.author != request.user:
         post = get_object_or_404(
