@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.http import Http404
-from django.views.generic import (CreateView, DeleteView,  UpdateView)
+from django.views.generic import (CreateView, DeleteView, UpdateView)
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -78,26 +78,24 @@ def index(request):
     context = {
         'post_list': post_list,
         'page_obj': page_obj
-        }
+    }
     return render(request, template, context)
 
 
 def post_detail(request, pk):
     template = 'blog/detail.html'
     post = get_object_or_404(
-        Post.objects.select_related(
-                                   'category', 'location', 'author'
-                                   ), pk=pk
+        Post.objects.select_related('category', 'location', 'author'),
+        pk=pk
     )
     if post.author != request.user:
         post = get_object_or_404(
-            Post.objects.select_related(
-                                        'category', 'location', 'author'
-            ).filter(
-                    pub_date__lte=timezone.now(),
-                    is_published=True,
-                    category__is_published=True
-                    ),
+            Post.objects.select_related('category', 'location', 'author')
+            .filter(
+                pub_date__lte=timezone.now(),
+                is_published=True,
+                category__is_published=True
+            ),
             pk=pk
         )
     post_comments = Comment.objects.filter(post=post).select_related('post')
@@ -142,7 +140,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return reverse(
             'blog:profile',
             kwargs={'username': self.request.user.username}
-            )
+        )
 
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):

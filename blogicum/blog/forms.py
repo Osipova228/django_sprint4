@@ -22,7 +22,7 @@ class PostForm(forms.ModelForm):
             from_email='birthday_form@blogicum.not',
             recipient_list=['admin@blogicum.not'],
             fail_silently=True,
-            )
+        )
 
 
 class CommentForm(forms.ModelForm):
