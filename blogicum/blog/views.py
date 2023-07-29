@@ -6,11 +6,10 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 
-from blog.models import Post, Category, Comment, Profile
+from blog.models import Post, Category, Comment, User, Profile
 from .forms import CommentForm, PostForm, ProfileForm
 
 
